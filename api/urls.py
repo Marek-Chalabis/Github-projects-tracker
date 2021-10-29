@@ -1,10 +1,10 @@
 from django.conf.urls import url
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from rest_framework_swagger.views import get_swagger_view
 
 from api.social_auth import GithubLogin
 from api.views import ProjectModelViewSet
+from rest_framework_swagger.views import get_swagger_view
 
 router = DefaultRouter()
 router.register('projects', ProjectModelViewSet, basename='projects')
