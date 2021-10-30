@@ -16,9 +16,5 @@ services:
     image: postgres:13-alpine
     volumes:
       - ./data/db:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-#    env_file:
-#      - ./emenu/.env # todo
+    env_file:
+      - ./github_projects_tracker/.env
