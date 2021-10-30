@@ -52,7 +52,7 @@ class ProjectModelViewSet(
             projects_to_return.append(
                 dictionary_compress(
                     dictionary_to_compress=project,
-                    keys=self.base_fields_to_return,
+                    keys_to_keep=self.base_fields_to_return,
                 )
             )
         return Response(projects_to_return)
@@ -65,7 +65,7 @@ class ProjectModelViewSet(
         ).json()
         project_to_return = dictionary_compress(
             dictionary_to_compress=project_github,
-            keys=self.base_fields_to_return,
+            keys_to_keep=self.base_fields_to_return,
         )
         last_commit = GithubOrganizationApi.get_last_commit_on_branch(
             project_name=project_name,
