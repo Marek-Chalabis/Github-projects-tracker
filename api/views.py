@@ -7,10 +7,14 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from api.github_organization_api import GithubOrganizationApi
-from api.github_organization_api.urls import get_project_zip_url
+
+from api.github_organization_api.github_api_urls import (
+    URL_DOWNLOAD_REPOSITORY_ARCHIVE_ZIP,
+)
 from api.models import Project
 from api.serializers import ProjectSerializer
 from api.utils import dictionary_compress
+from github_projects_tracker.settings import env
 
 
 class ProjectModelViewSet(
@@ -39,7 +43,7 @@ class ProjectModelViewSet(
 
     def _get_filtered_projects(self) -> filter:
         """Returns projects from Github API which organization monitor."""
-        organization_projects = GithubOrganizationApi.get_projects().json()
+        organization_projects = GithubOrganizationApi().get_organization_repos().json()
         return filter(
             lambda project: project['name'].lower() in self.monitored_projects,
             organization_projects,
@@ -59,23 +63,24 @@ class ProjectModelViewSet(
 
     def retrieve(self, request, *args, **kwargs) -> Response:
         """Returns project with additional data about last commit and download link."""
+        # TODO co jeśli nie ma dostępu
+        github_api = GithubOrganizationApi()
         project_name = self.get_object().project_name
-        project_github = GithubOrganizationApi.get_project(
-            project_name=project_name
-        ).json()
+        project_github = github_api.get_repo(repo=project_name).json()
         project_to_return = dictionary_compress(
             dictionary_to_compress=project_github,
             keys_to_keep=self.base_fields_to_return,
         )
-        last_commit = GithubOrganizationApi.get_last_commit_on_branch(
-            project_name=project_name,
+        last_commit = github_api.get_commit(
+            repo=project_name,
             branch=project_github['default_branch'],
         ).json()
         project_to_return['commit'] = {
             'author': last_commit['commit']['author'],
             'message': last_commit['commit']['message'],
         }
-        project_to_return['download_link'] = get_project_zip_url(
-            project_name=project_name
+        project_to_return['download_link'] = URL_DOWNLOAD_REPOSITORY_ARCHIVE_ZIP.format(
+            owner=env("ORGANIZATION"),
+            repo=project_name,
         )
         return Response(project_to_return)

@@ -13,7 +13,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def validate_project_name(self, project_name) -> str:
         """Checks if project exists for organization and user can add it."""
-        project = GithubOrganizationApi.get_project(project_name)
+        project = GithubOrganizationApi().get_repo(repo=project_name)
         if project.status_code == HTTP_404_NOT_FOUND:
             raise ValidationError(
                 f'Project({project_name}) does not exists({project.url})'
