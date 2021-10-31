@@ -3,7 +3,6 @@ from django.db import models
 
 
 class LowerCaseCharField(models.CharField):
-
     def get_prep_value(self, field_value: str) -> str:
         """Overwrite this for DRF."""
         return str(field_value).lower()
