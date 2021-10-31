@@ -16,7 +16,7 @@ from api.github_organization_api.github_api_urls import (
 )
 from api.models import Project
 from api.serializers import ProjectSerializer
-from api.utils import dictionary_compress
+from api.utils_api import dictionary_compress
 from github_projects_tracker.settings import env
 
 
@@ -102,7 +102,7 @@ class ProjectModelViewSet(
 
     def _get_monitored_projects(
         self,
-        organization_projects: list[dict[str, Any]],
+        organization_projects: list,
     ) -> Iterator:
         """Projects from Github API which organization monitor."""
         return filter(
