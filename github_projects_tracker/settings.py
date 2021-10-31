@@ -1,8 +1,9 @@
-from pathlib import Path
 import os
 import sys
+
 from pathlib import Path
 from typing import List
+
 import environ
 
 env: environ.Env = environ.Env()
@@ -148,8 +149,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ALLAUTH DJ_REST_AUTH
 SITE_ID = 1
-REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'my-app-auth'
 AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
@@ -158,7 +157,8 @@ AUTHENTICATION_BACKENDS = [
 # DJANGO REST FRAMEWORK
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
