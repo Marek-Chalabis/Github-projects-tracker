@@ -19,7 +19,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         project = GithubOrganizationApi().get_repo(repo=project_name)
         if project.status_code == HTTP_404_NOT_FOUND:
             raise ValidationError(
-                f'Project({project_name}) does not exists({project.url})',
+                f'Project({project_name}) does not exists - {project.url}',
             )
         if project.status_code == HTTP_401_UNAUTHORIZED:
             raise ValidationError(
