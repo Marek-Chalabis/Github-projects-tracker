@@ -43,23 +43,19 @@ List of features:
 ```
     docker-compose build
 ```
-4 Run makemigrations
-```
-    docker-compose run --rm app ./manage.py makemigrations
-```
-5 Run migrations
+4 Run migrations
 ```
     docker-compose run --rm app ./manage.py migrate
 ```
-6 Create a superuser account to get access for admin panel
+5 Create a superuser account to get access for admin panel
 ```
     docker-compose run --rm app ./manage.py createsuperuser
 ```
-7 Run containers
+6 Run containers
 ```
     docker-compose up
 ```
-8 Register OAuth application -> https://github.com/settings/applications/new
+7 Register OAuth application -> https://github.com/settings/applications/new
 
 For development: 
 - Application name: AuthGH
@@ -70,10 +66,11 @@ For development:
 Keep generated: Client Id and Secret key
 
 
-9 Register social provider in your app - http://localhost:8000/admin/socialaccount/socialapp/add/
+8 Register social provider in your app - http://localhost:8000/admin/socialaccount/socialapp/add/
 
 For development
 - Provider: Github
+- Name: AuthGH
 - Client Id: Client Id
 - Secret key: Secret key
 - Sites: create one (Domain name: http://localhost:8000/, Display name: AuthGithub) and add it to chosen sites
