@@ -70,7 +70,7 @@ class TestProjectModelViewSet:
         client.force_login(user)
         response = client.post('/api/v1/projects/', {'project_name': project_name_test})
         assert response.status_code == HTTP_201_CREATED
-        assert response.json() == {'project_name': project_name_test}
+        assert response.json() == {'project_name': 'test'}
 
     def test_create_un_authorization_access(self, client):
         response = client.post('/api/v1/projects/', {'project_name': 'test'})
